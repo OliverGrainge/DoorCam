@@ -8,6 +8,12 @@ training:
   backbone: "resnet18"
   aggregation: "gem"
   train_batch_size: 5
+  infer_batch_size: 5
   image_size: [224, 224]
   device: "cuda"
   features_dim: 0 # to be used during construction of the model
+  vggface_dir: "/home/oliver/Downloads/VGG-Face2"
+  mining: "partial"
+  n_positives: 2
+  n_negatives: 2
+  triplet_sample_size: 3000
