@@ -2,11 +2,10 @@
 
 training:
   learning_rate: 0.001
-  loss_function: "triplet"
   optimizer: "adam"
   fc_output_dim: 2048
   backbone: "resnet18"
-  aggregation: "gem"
+  aggregation: "GEM"
   train_batch_size: 5
   infer_batch_size: 5
   image_size: [224, 224]
@@ -14,6 +13,8 @@ training:
   features_dim: 0 # to be used during construction of the model
   vggface_dir: "/home/oliver/Downloads/VGG-Face2"
   mining: "partial"
-  n_positives: 2
-  n_negatives: 2
+  n_positives: 1
+  n_negatives: 1
   triplet_sample_size: 3000
+  early_stopping_patience: 3
+  max_epochs: 100
