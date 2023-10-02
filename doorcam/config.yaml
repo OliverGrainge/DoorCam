@@ -1,0 +1,13 @@
+
+
+training:
+  learning_rate: 0.001
+  loss_function: "triplet"
+  optimizer: "adam"
+  fc_output_dim: 2048
+  backbone: "resnet18"
+  aggregation: "gem"
+  train_batch_size: 5
+  image_size: [224, 224]
+  device: "cuda"
+  features_dim: 0 # to be used during construction of the model
