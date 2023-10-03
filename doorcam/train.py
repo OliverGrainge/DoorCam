@@ -10,14 +10,13 @@ from pathlib import Path
 from ray.air.integrations.mlflow import MLflowLoggerCallback
 import time
 
-import doorcam.models as models
+import models
 
 
 with open("config.yaml", "r") as file:
     config = yaml.safe_load(file)
 
 import mlflow
-mlflow.set_tracking_uri("http://your-mlflow-server:port")
 mlflow.start_run()
 mlflow.log_params(config["training"])
 
@@ -99,7 +98,7 @@ for epoch in range(config["max_epochs"]):
         negatives = batch[:, 2, :, :, :]
 
         images = torch.vstack((anchors, positives, negatives))
-        with torch.no_grad()
+        with torch.no_grad():
             embeddings = model(images.to(config["training"]["device"]))
 
         # reshape embedings 
