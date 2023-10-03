@@ -327,3 +327,13 @@ class TripletDataset(Dataset):
         del distances
         del ds
         del dl
+
+
+if __name__ == "__main__":
+    ds = TripletDataset(config)
+    ds.random_mine(4)
+
+    dataloader = DataLoader(ds, batch_size=config["training"]["train_batch_size"])
+
+    for batch in dataloader:
+        print(batch.shape)
