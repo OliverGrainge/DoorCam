@@ -5,11 +5,21 @@ import torch.optim as optim
 import yaml
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+import mlflow
+from pathlib import Path
+from ray.air.integrations.mlflow import MLflowLoggerCallback
+import time
 
 import doorcam.models as models
 
+
 with open("config.yaml", "r") as file:
     config = yaml.safe_load(file)
+
+import mlflow
+mlflow.set_tracking_uri("http://your-mlflow-server:port")
+mlflow.start_run()
+mlflow.log_params(config["training"])
 
 
 def get_optimizer(config: dict, model):
@@ -32,6 +42,7 @@ test_triplet_dataset = data.TripletDataset(config, partition="test")
 
 
 test_losses = []
+train_losses = []
 
 for epoch in range(config["max_epochs"]):
     model.train
@@ -62,9 +73,11 @@ for epoch in range(config["max_epochs"]):
         positive_embeddings = embeddings[config["training"]["train_batch_size"]:config["training"]["train_batch_size"]*2]
         negative_embeddings = embeddings[config["training"]["train_batch_size"]*2:]
 
-        loss = loss_fn(anchor_embeddings, positive_embeddings, negative_embeddings)
-        loss.backward()
+        train_loss = loss_fn(anchor_embeddings, positive_embeddings, negative_embeddings)
+        train_loss.backward()
         optimizer.step()
+
+        
 
     
     del train_dataloader
@@ -95,11 +108,15 @@ for epoch in range(config["max_epochs"]):
         positive_embeddings = embeddings[config["training"]["train_batch_size"]:config["training"]["train_batch_size"]*2]
         negative_embeddings = embeddings[config["training"]["train_batch_size"]*2:]
 
-        loss = loss_fn(anchor_embeddings, positive_embeddings, negative_embeddings).detach().cpu().numpy()
-        average_test_loss.append(loss)
+        test_loss = loss_fn(anchor_embeddings, positive_embeddings, negative_embeddings)
+        average_test_loss.append(test_loss)
 
     print("============ Average Test Loss ", + str(np.mean(average_test_loss)))
 
+    mlflow.log_metrics({"train_loss": train_loss, "val_loss": test_loss}, step=epoch)
+
+mlflow.pytorch.log_model(model, "model")
+mlflow.end_run()
 
 
 
