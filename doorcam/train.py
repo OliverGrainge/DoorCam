@@ -1,22 +1,24 @@
+import time
+from pathlib import Path
+
 import data
+import mlflow
+import models
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import yaml
+from ray.air.integrations.mlflow import MLflowLoggerCallback
+from pytorch_metric_learning import losses, miners
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-import mlflow
-from pathlib import Path
-from ray.air.integrations.mlflow import MLflowLoggerCallback
-import time
-
-import models
-
+import numpy as np
 
 with open("config.yaml", "r") as file:
     config = yaml.safe_load(file)
 
 import mlflow
+
 mlflow.start_run()
 mlflow.log_params(config["training"])
 
@@ -33,92 +35,61 @@ def get_optimizer(config: dict, model):
 
 
 model = models.FaceIDModel(config).to(config["training"]["device"])
-loss_fn = nn.TripletMarginLoss(margin=1.0, p=2)
+loss_fn = losses.TripletMarginLoss()
+miner = miners.TripletMarginMiner(margin=0.2, type_of_triplets="all")
 optimizer = get_optimizer(config, model)
 
-train_triplet_dataset = data.TripletDataset(config, partition="train")
-test_triplet_dataset = data.TripletDataset(config, partition="test")
+train_dataset = data.VGGFaceDataset(config, partition="train")
+test_dataset = data.VGGFaceDataset(config, partition="test")
 
+train_dataloader = DataLoader(
+    train_dataset,
+    batch_size=config["training"]["train_batch_size"],
+    shuffle=True,
+)
+
+test_dataloader = DataLoader(
+    test_dataset,
+    batch_size=config["training"]["infer_batch_size"],
+    shuffle=False,
+)
 
 test_losses = []
 train_losses = []
 
 for epoch in range(config["max_epochs"]):
-    model.train
-    if config["training"]["mining"] == "partial":
-        train_triplet_dataset.partial_mine(model)
-    elif config["training"]["mining"] == "random":
-        train_triplet_dataset.random_mine(model)
-    else:
-        raise NotImplementedError
-
-    train_dataloader = DataLoader(train_triplet_dataset, batch_size=config["training"]["train_batch_size"], shuffle=True)
-
-    for idx, batch in tqdm(enumerate(train_dataloader), total=len(train_dataloader), desc="Training Epoch " + str(epoch)):
+    # Training Loop
+    model.train()
+    average_train_loss = []
+    for batch, labels, indicies in tqdm(
+        enumerate(train_dataloader),
+        total=len(train_dataloader),
+        desc="Training Epoch " + str(epoch),
+    ):
         optimizer.zero_grad()
-        
-        # reshape embedings 
-        anchors = batch[:, 0, :, :, :]
-        positives = batch[:, 1, :, :, :]
-        negatives = batch[:, 2, :, :, :]
+        embeddings = model(embeddings.to(config["training"]["device"]))
+        hard_pairs = miner(embeddings, labels)
+        train_loss = loss_fn(embeddings, labels, hard_pairs)
 
-        images = torch.vstack((anchors, positives, negatives))
-
-        embeddings = model(images.to(config["training"]["device"]))
-
-        # reshape embedings 
-
-        anchor_embeddings = embeddings[:config["training"]["train_batch_size"]]
-        positive_embeddings = embeddings[config["training"]["train_batch_size"]:config["training"]["train_batch_size"]*2]
-        negative_embeddings = embeddings[config["training"]["train_batch_size"]*2:]
-
-        train_loss = loss_fn(anchor_embeddings, positive_embeddings, negative_embeddings)
         train_loss.backward()
         optimizer.step()
+        average_train_loss.append(train_loss)
 
-        
-
-    
-    del train_dataloader
-    if config["training"]["mining"] == "partial":
-        test_triplet_dataset.partial_mine(model)
-    elif config["training"]["mining"] == "random":
-        test_triplet_dataset.random_mine(model)
-    else:
-        raise NotImplementedError
-
-    test_dataloader = DataLoader(test_triplet_dataset, batch_size=config["training"]["infer_batch_size"], shuffle=False)
+    # Validation Loop
     model.eval()
-    
     average_test_loss = []
-    for idx, batch in tqdm(enumerate(test_dataloader), total=len(test_dataloader), desc="Testing" + str(epoch)):
-        # reshape embedings 
-        anchors = batch[:, 0, :, :, :]
-        positives = batch[:, 1, :, :, :]
-        negatives = batch[:, 2, :, :, :]
-
-        images = torch.vstack((anchors, positives, negatives))
+    for batch, labels, idx in tqdm(
+        enumerate(test_dataloader),
+        total=len(test_dataloader),
+        desc="Testing" + str(epoch),
+    ):
         with torch.no_grad():
-            embeddings = model(images.to(config["training"]["device"]))
-
-        # reshape embedings 
-
-        anchor_embeddings = embeddings[:config["training"]["train_batch_size"]]
-        positive_embeddings = embeddings[config["training"]["train_batch_size"]:config["training"]["train_batch_size"]*2]
-        negative_embeddings = embeddings[config["training"]["train_batch_size"]*2:]
-
-        test_loss = loss_fn(anchor_embeddings, positive_embeddings, negative_embeddings)
+            embeddings = model(batch.to(config["training"]["device"]))
+            test_loss = loss_fn(embeddings, labels)
         average_test_loss.append(test_loss)
 
-    print("============ Average Test Loss ", + str(np.mean(average_test_loss)))
-
-    mlflow.log_metrics({"train_loss": train_loss, "val_loss": test_loss}, step=epoch)
+    print("============ Average Test Loss ", +str(np.mean(average_test_loss)))
+    mlflow.log_metrics({"train_loss": np.mean(average_train_loss), "val_loss": np.mean(average_test_loss)}, step=epoch)
 
 mlflow.pytorch.log_model(model, "model")
 mlflow.end_run()
-
-
-
-
-
-        

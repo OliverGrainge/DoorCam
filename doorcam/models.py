@@ -23,17 +23,35 @@ def get_backbone(config: dict) -> nn.Module:
 
     if config["training"]["backbone"] == "resnet18":
         model = models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
-        model = torch.nn.Sequential(*(list(model.children())[:-2])).to(config["training"]["device"])
+        model = torch.nn.Sequential(*(list(model.children())[:-2])).to(
+            config["training"]["device"]
+        )
         test_img = torch.randn(1, 3, image_size[0], image_size[1])
-        feature_dim = model(test_img.to(config["training"]["device"])).detach().cpu().squeeze().numpy().shape
+        feature_dim = (
+            model(test_img.to(config["training"]["device"]))
+            .detach()
+            .cpu()
+            .squeeze()
+            .numpy()
+            .shape
+        )
         config["training"]["feature_dim"] = feature_dim
         backbone = model
 
     if config["training"]["backbone"] == "resnet50":
         model = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
-        model = torch.nn.Sequential(*(list(model.children())[:-2])).to(config["training"]["device"])
+        model = torch.nn.Sequential(*(list(model.children())[:-2])).to(
+            config["training"]["device"]
+        )
         test_img = torch.randn(1, 3, image_size[0], image_size[1])
-        feature_dim = model(test_img.to(config["training"]["device"])).detach().cpu().squeeze().numpy().shape
+        feature_dim = (
+            model(test_img.to(config["training"]["device"]))
+            .detach()
+            .cpu()
+            .squeeze()
+            .numpy()
+            .shape
+        )
         config["training"]["feature_dim"] = feature_dim
         backbone = model
 
@@ -95,10 +113,17 @@ class FaceIDModel(nn.Module):
         self.backbone = get_backbone(config)
         self.aggregation = get_aggregation(config)
 
-        test_image = torch.randn(1, 3, config["training"]["image_size"][0], config["training"]["image_size"][1]).to(config["training"]["device"])
+        test_image = torch.randn(
+            1,
+            3,
+            config["training"]["image_size"][0],
+            config["training"]["image_size"][1],
+        ).to(config["training"]["device"])
         feature_maps = self.backbone(test_image)
         embedding = self.aggregation(feature_maps).detach().cpu().flatten()
-        self.linear_proj = nn.Linear(embedding.shape[0], config["training"]["fc_output_dim"])
+        self.linear_proj = nn.Linear(
+            embedding.shape[0], config["training"]["fc_output_dim"]
+        )
         self.norm = agg.L2Norm()
 
     def forward(self, x: torch.tensor) -> torch.tensor:
