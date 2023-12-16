@@ -13,6 +13,11 @@ from pytorch_metric_learning import losses, miners
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import numpy as np
+from typing import Tuple
+import pytorch_lightning as pl
+from pytorch_lightning import loggers as pl_loggers
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning import Trainer
 
 with open("config.yaml", "r") as file:
     config = yaml.safe_load(file)
@@ -34,62 +39,86 @@ def get_optimizer(config: dict, model):
         raise NotImplementedError
 
 
-model = models.FaceIDModel(config).to(config["training"]["device"])
-loss_fn = losses.TripletMarginLoss()
-miner = miners.TripletMarginMiner(margin=0.2, type_of_triplets="all")
-optimizer = get_optimizer(config, model)
 
-train_dataset = data.VGGFaceDataset(config, partition="train")
-test_dataset = data.VGGFaceDataset(config, partition="test")
+class LitModel(pl.LightningModule):
+    def __init__(self):
+        super().__init__()
+        self.model = models.FaceIdModule(config)
+        self.loss_fn = losses.TripletMarginLoss()
+        self.miner = miners.TripletMarginMiner(margin=0.2, trype_of_triplets="all")
 
-train_dataloader = DataLoader(
-    train_dataset,
-    batch_size=config["training"]["train_batch_size"],
-    shuffle=True,
-)
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.model(x)
+        return x
+        
+    def training_step(self, batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor], batch_idx: torch.Tensor) -> torch.Tensor:
+        images, labels, indicies = batch
+        embeddings = self.model(images)
+        hard_pairs = self.miner(embeddings, labels)
+        loss = self.loss_fn(embeddings, labels, hard_pairs)
+        self.log("train_loss", loss)
+        return loss
 
-test_dataloader = DataLoader(
-    test_dataset,
-    batch_size=config["training"]["infer_batch_size"],
-    shuffle=False,
-)
+    def validation_step(self, batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor], batch_idx: torch.Tensor) -> torch.Tensor:
+        images, labels, indicies = batch
+        embeddings = self.model(images.to(config["training"]["device"]))
+        loss = self.loss_fn(embeddings, labels)
+        self.log("val_loss", loss)
+        return loss
 
-test_losses = []
-train_losses = []
+    def configure_optimizers(self) -> optim.Optimizer:
+        optimizer = get_optimizer(config, self.model)
+        return optimizer
 
-for epoch in range(config["max_epochs"]):
-    # Training Loop
-    model.train()
-    average_train_loss = []
-    for batch, labels, indicies in tqdm(
-        enumerate(train_dataloader),
-        total=len(train_dataloader),
-        desc="Training Epoch " + str(epoch),
-    ):
-        optimizer.zero_grad()
-        embeddings = model(embeddings.to(config["training"]["device"]))
-        hard_pairs = miner(embeddings, labels)
-        train_loss = loss_fn(embeddings, labels, hard_pairs)
 
-        train_loss.backward()
-        optimizer.step()
-        average_train_loss.append(train_loss)
+class DataModule(pl.LightningDataModule):
+    def __init__(self):
+        super().__init__()
 
-    # Validation Loop
-    model.eval()
-    average_test_loss = []
-    for batch, labels, idx in tqdm(
-        enumerate(test_dataloader),
-        total=len(test_dataloader),
-        desc="Testing" + str(epoch),
-    ):
-        with torch.no_grad():
-            embeddings = model(batch.to(config["training"]["device"]))
-            test_loss = loss_fn(embeddings, labels)
-        average_test_loss.append(test_loss)
+    def setup(self, mode=None):
+        self.train_dataset = data.VGGFaceDataset(config, parition="train")
+        self.val_dataset = data.VGGFaceDataset(config, partition="test")
 
-    print("============ Average Test Loss ", +str(np.mean(average_test_loss)))
-    mlflow.log_metrics({"train_loss": np.mean(average_train_loss), "val_loss": np.mean(average_test_loss)}, step=epoch)
+    def train_dataloaders(self) -> DataLoader:
+        train_dataloader = DataLoader(
+            self.train_dataset,
+            batch_size=config["training"]["train_batch_size"],
+            shuffle=True,
+        )
+        return train_dataloader
 
-mlflow.pytorch.log_model(model, "model")
-mlflow.end_run()
+    def val_dataloaders(self) -> DataLoader:
+        val_dataloader = DataLoader(
+            self.val_dataset,
+            batch_size=config["training"]["infer_batch_size"],
+            shuffle=False,
+        )
+        return val_dataloader
+
+
+if __name__ == '__main__':
+    tb_logger = pl_loggers.TensorBoardLogger('logs/')
+
+    checkpoint_callback = ModelCheckpoint(
+        monitor='val_loss',  # or another metric that you are logging
+        dirpath='model_checkpoints/',
+        filename='best_model',
+        save_top_k=1,
+        mode='min',
+    )
+
+    trainer = Trainer(
+        logger=tb_logger,
+        callbacks=[checkpoint_callback],
+        max_epochs=10,
+    )
+    
+    model = LitModel()
+    datamodule = DataModule()
+    trainer.fit(model, datamodule=datamodule)
+
+
+
+
+
+
