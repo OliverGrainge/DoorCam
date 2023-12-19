@@ -43,9 +43,9 @@ def get_optimizer(config: dict, model):
 class LitModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
-        self.model = models.FaceIdModule(config)
+        self.model = models.FaceIDModel(config)
         self.loss_fn = losses.TripletMarginLoss()
-        self.miner = miners.TripletMarginMiner(margin=0.2, trype_of_triplets="all")
+        self.miner = miners.TripletMarginMiner(margin=0.2, type_of_triplets="all")
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.model(x)
@@ -75,8 +75,8 @@ class DataModule(pl.LightningDataModule):
     def __init__(self):
         super().__init__()
 
-    def setup(self, mode=None):
-        self.train_dataset = data.VGGFaceDataset(config, parition="train")
+    def setup(self, stage=None):
+        self.train_dataset = data.VGGFaceDataset(config, partition="train")
         self.val_dataset = data.VGGFaceDataset(config, partition="test")
 
     def train_dataloaders(self) -> DataLoader:

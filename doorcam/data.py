@@ -76,10 +76,11 @@ def get_image_paths(
 class VGGFaceDataset(Dataset):
     def __init__(
         self,
-        image_paths: np.ndarray,
+        config: Namespace,
+        partition: str,
         transform: Optional[Union[Compose, callable]] = None,
     ) -> None:
-        self.image_paths = image_paths
+        self.image_paths = get_image_paths(config, partition)
         self.transform = transform
         self.image_ids, self.image_paths = get_image_paths()
 
