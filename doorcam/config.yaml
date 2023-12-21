@@ -1,0 +1,25 @@
+
+
+training:
+  loss_fn: "triplet"
+  learning_rate: 0.0001
+  optimizer: "adam"
+  fc_output_dim: 2048
+  backbone: "resnet50"
+  aggregation: "GEM"
+  train_batch_size: 300
+  infer_batch_size: 200
+  num_workers: 12
+  device: "cuda"
+  vggface_dir: "/home/oliver/Downloads/VGG-Face2"
+  triplet_sample_size: 3000
+  early_stopping_patience: 3
+  max_epochs: 100
+  precision: 16
+  batch_samples_per_class: 5
+  image_size: [224, 224]
+
+
+inference: 
+  model_name: "best_model-v3.ckpt"
+  similarity_threshold: 0.1
