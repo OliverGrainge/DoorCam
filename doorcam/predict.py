@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 from glob import glob
 from typing import Tuple, Union
 
@@ -42,11 +43,16 @@ class Identifier:
     """
 
     def __init__(self, config):
+        super().__init__()
         self.config = config
+        if config["inference"]["model_name"] == "":
+            
+            self.model = TripletModel()
+        else:
+            self.model = TripletModel.load_from_checkpoint(
+                "model_checkpoints/" + config["inference"]["model_name"]
+            )
         self.embeddings, self.names = self.load_id_database()
-        self.model = TripletModel.load_from_checkpoint(
-            "model_checkpoints/" + config["inference"]["model_name"]
-        )
 
     def inference(self, x: Image) -> Union[dict, None]:
         """
@@ -67,11 +73,11 @@ class Identifier:
         if distances[0][0] <= self.config["inference"]["similarity_threshold"]:
             name = self.names[indices[0][0]]
             timestamp = datetime.datetime.utcnow()
-            entry = {"Name": name, "Timestamp": timestamp}
+            entry = {"Name": [name], "Timestamp": [timestamp]}
             return entry
         else:
             timestamp = datetime.datetime.utcnow()
-            entry = {"Name": "unknown", "Timestamp": timestamp}
+            entry = {"Name": ["unknown"], "Timestamp": [timestamp]}
             return entry
 
     def load_id_database(self) -> Tuple[np.ndarray, np.ndarray]:
@@ -82,7 +88,7 @@ class Identifier:
             Tuple[np.ndarray, np.ndarray]: A tuple containing arrays of embeddings and names.
         """
 
-        images = glob("people/*")
+        images = glob("static/people/*")
         names = [extract_name_from_path(pth) for pth in images]
         images = [Image.open(img) for img in images]
         embeddings = np.vstack([self.model.predict(img) for img in images])
@@ -97,8 +103,13 @@ class Identifier:
         """
         try:
             record = pd.read_csv("entry_record.csv")
+            record['Timestamp'] = pd.to_datetime(record['Timestamp'])
+            record = record.head(20)
         except:
-            record = pd.DataFrame(columns=["Name", "Timestamp"])
+            timestamp = datetime.datetime.utcnow()
+            record_dict = {"Name": ["oliver grainge"], "Timestamp":[timestamp]}
+            record = pd.DataFrame.from_dict(record_dict)
+            record['Timestamp'] = pd.to_datetime(record['Timestamp'])
         return record
 
     def save_record(self, record: pd.DataFrame) -> None:
@@ -108,7 +119,11 @@ class Identifier:
         Args:
             record (pd.DataFrame): The entry record DataFrame to save.
         """
-        pd.to_csv("entry_record.csv", record, index=False)
+        record = record.head(20)
+        record['Timestamp'] = pd.to_datetime(record['Timestamp'])
+        one_week_ago = datetime.datetime.utcnow() - timedelta(weeks=1)
+        record = record[record['Timestamp'] > one_week_ago]
+        record.to_csv("entry_record.csv", index=False)
 
     def add_entryrecord(self, entry: dict) -> None:
         """
@@ -117,7 +132,7 @@ class Identifier:
         Args:
             entry (dict): The entry dictionary to add to the record.
         """
-        new_record = pd.DataFrame.from_dict(record)
+        new_record = pd.DataFrame.from_dict(entry)
         record = pd.concat([self.load_record(), new_record])
         self.save_record(record)
 
@@ -135,4 +150,4 @@ class Identifier:
         Returns:
             None: This function does not return anything. It saves the image to disk.
         """
-        x.save("people/" + name + ".jpg")
+        x.save("statice/people/" + name + ".jpg")
