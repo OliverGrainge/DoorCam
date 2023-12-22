@@ -36,10 +36,27 @@ def update_data():
     if file:
         # Read the image via PIL
         image = Image.open(BytesIO(file.read()))
+        all_records = predictor.load_record()
         record = predictor.inference(image)
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(record)
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        print(" ")
+        
         if record is not None:
-            predictor.add_entryrecord(record)
-            entry_record = predictor.load_record()
+            filtered_records = all_records[all_records["Name"]==record["Name"][0]]
+            last_timestamp = filtered_records['Timestamp'].max()
+            if last_timestamp + timedelta(minutes=10) <= record['Timestamp'][0] or filtered_records.empty:
+                predictor.add_entryrecord(record)
+                entry_record = predictor.load_record()
         return jsonify({'message': 'Image received successfully'}), 200
 
 

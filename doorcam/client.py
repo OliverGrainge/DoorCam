@@ -1,5 +1,11 @@
 import cv2
 from mtcnn import MTCNN
+import requests
+import PIL 
+import io
+from utils import get_config
+
+config = get_config()
 
 # Initialize the detector
 detector = MTCNN()
@@ -26,6 +32,7 @@ while cap.isOpened():
             break
 
     if motion_detected:
+
             ret, frame = cap.read()
             if not ret:
                 break
@@ -38,10 +45,17 @@ while cap.isOpened():
                 x, y, width, height = result['box']
                 cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 155, 255), 2)
                 face = frame[y:y + height, x:x + width]
-                cv2.imshow('Face', face)
+                byte_stream = io.BytesIO()
+                image = PIL.Image.fromarray(face)
+                image.save(byte_stream, format='JPEG')
+                image_bytes = byte_stream.getvalue()
+                files = {'file': ('filename.jpg', image_bytes, 'image/jpeg')}
+                response = requests.post(config["inference"]["server_address"] + "/update", files=files)
+                print(response.text)
 
             # Display the frame
-            cv2.imshow('Frame', frame)
+            #cv2.imshow('Frame', frame)
+
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
