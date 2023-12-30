@@ -10,9 +10,10 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision.transforms import Compose
 from tqdm import tqdm
-from utils import get_config, get_transform
+from utils import get_config, get_transform, get_logger
 
 config = get_config()
+logger = get_logger()
 
 
 def reduce_dataset(image_paths, labels, samples_per_category):
@@ -70,6 +71,9 @@ def get_image_paths(
     vggface_dir = config["training"]["vggface_dir"] + "/data/" + partition + "/*"
     ids_paths = glob(vggface_dir)
     total_paths = len(ids_paths)
+    logger.info(f"Total number of image paths in VGG {total_paths}")
+    logger.info(f"Total number of ID's in VGG {ids_paths}")
+    assert len(total_paths) == len(ids_paths)
 
     all_img_paths = []
     all_img_ids = []
@@ -118,6 +122,7 @@ class VGGFaceDataset(Dataset):
 
             self.image_ids = self.image_ids[:2000]
             self.image_paths = self.image_paths[:2000]
+            assert len(self.image_ids) == len(self.image_paths)
 
         ids = np.arange(num_ids)
         indicies = []

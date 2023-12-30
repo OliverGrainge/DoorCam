@@ -4,9 +4,10 @@ import torch.nn as nn
 import torchvision.models as models
 import yaml
 from torchvision.models import ResNet18_Weights, ResNet50_Weights
-from utils import get_config
+from utils import get_config, get_logger
 
 config = get_config()
+logger = get_logger()
 
 
 def get_backbone(config: dict) -> nn.Module:
@@ -22,6 +23,7 @@ def get_backbone(config: dict) -> nn.Module:
     image_size = config["training"]["image_size"]
 
     if config["training"]["backbone"] == "resnet18":
+        logger.info("Loading ResNet18 Backbone")
         model = models.resnet18(weights=ResNet18_Weights.IMAGENET1K_V1)
         model = torch.nn.Sequential(*(list(model.children())[:-2])).to(
             config["training"]["device"]
@@ -39,6 +41,7 @@ def get_backbone(config: dict) -> nn.Module:
         backbone = model
 
     if config["training"]["backbone"] == "resnet50":
+        logger.info("Loading ResNet50 Backbone")
         model = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
         model = torch.nn.Sequential(*(list(model.children())[:-2])).to(
             config["training"]["device"]
@@ -71,14 +74,17 @@ def get_aggregation(args: dict) -> nn.Module:
     """
 
     if config["training"]["aggregation"] == "MAC":
+        logger.info("Loading MAC Aggregation")
         aggregation = agg.MAC().to(config["training"]["device"])
         return aggregation
 
     elif config["training"]["aggregation"] == "SPOC":
+        logger.info("Loading SPOC Aggregation")
         aggregation = agg.SPoC().to(config["training"]["device"])
         return aggregation
 
     elif config["training"]["aggregation"] == "GEM":
+        logger.info("Loading GEM Aggregation")
         aggregation = agg.GeM().to(config["training"]["device"])
         return aggregation
 
