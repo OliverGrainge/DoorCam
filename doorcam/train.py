@@ -2,8 +2,10 @@ import time
 from pathlib import Path
 from typing import Tuple
 
+import data
 import faiss
 import mlflow
+import models
 import numpy as np
 import pytorch_lightning as pl
 import torch
@@ -16,14 +18,12 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_metric_learning import losses, miners, reducers
 from pytorch_metric_learning.samplers import MPerClassSampler
-from pytorch_metric_learning.utils.accuracy_calculator import AccuracyCalculator
+from pytorch_metric_learning.utils.accuracy_calculator import \
+    AccuracyCalculator
 from ray.air.integrations.mlflow import MLflowLoggerCallback
 from sklearn.metrics import pairwise_distances_argmin_min
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-
-import data
-import models
 from utils import get_config, test_transform
 
 config = get_config()

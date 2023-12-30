@@ -10,7 +10,6 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision.transforms import Compose
 from tqdm import tqdm
-
 from utils import get_config, get_transform
 
 config = get_config()

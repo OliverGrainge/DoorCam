@@ -1,10 +1,26 @@
 import yaml
 from torchvision import transforms
+from pathlib import Path
+import logging
+import os
+import logging.config
+from rich.logging import RichHandler
+
 
 
 def get_config() -> dict:
     with open("config.yaml", "r") as file:
         return yaml.safe_load(file)
+
+def get_logger():
+    import logger
+    LOGS_DIR = Path(os.path.dirname(os.path.abspath(__file__)), "logs")
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    logging.config.fileConfig(Path(LOGS_DIR, "logging.config"))
+    logger = logging.getLogger()
+    logger.handlers[0] = RichHandler(markup=True)
+    logger = logging.getLogger()
+    return logger
 
 
 test_transform = transforms.Compose(
@@ -36,3 +52,6 @@ def get_transform(partition: str) -> transforms.Compose:
         return test_transform
     else:
         raise Exception(f"Preprocessing for partition: {partition} is not implemented")
+
+
+

@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 from sklearn.neighbors import NearestNeighbors
-
 from train import TripletModel
 
 
@@ -46,7 +45,6 @@ class Identifier:
         super().__init__()
         self.config = config
         if config["inference"]["model_name"] == "":
-            
             self.model = TripletModel()
         else:
             self.model = TripletModel.load_from_checkpoint(
@@ -103,13 +101,13 @@ class Identifier:
         """
         try:
             record = pd.read_csv("entry_record.csv")
-            record['Timestamp'] = pd.to_datetime(record['Timestamp'])
+            record["Timestamp"] = pd.to_datetime(record["Timestamp"])
             record = record.head(20)
         except:
             timestamp = datetime.datetime.utcnow()
-            record_dict = {"Name": ["oliver grainge"], "Timestamp":[timestamp]}
+            record_dict = {"Name": ["oliver grainge"], "Timestamp": [timestamp]}
             record = pd.DataFrame.from_dict(record_dict)
-            record['Timestamp'] = pd.to_datetime(record['Timestamp'])
+            record["Timestamp"] = pd.to_datetime(record["Timestamp"])
         return record
 
     def save_record(self, record: pd.DataFrame) -> None:
@@ -120,9 +118,9 @@ class Identifier:
             record (pd.DataFrame): The entry record DataFrame to save.
         """
         record = record.head(20)
-        record['Timestamp'] = pd.to_datetime(record['Timestamp'])
+        record["Timestamp"] = pd.to_datetime(record["Timestamp"])
         one_week_ago = datetime.datetime.utcnow() - timedelta(weeks=1)
-        record = record[record['Timestamp'] > one_week_ago]
+        record = record[record["Timestamp"] > one_week_ago]
         record.to_csv("entry_record.csv", index=False)
 
     def add_entryrecord(self, entry: dict) -> None:

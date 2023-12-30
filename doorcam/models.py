@@ -1,10 +1,9 @@
+import aggregation as agg
 import torch
 import torch.nn as nn
 import torchvision.models as models
 import yaml
 from torchvision.models import ResNet18_Weights, ResNet50_Weights
-
-import aggregation as agg
 from utils import get_config
 
 config = get_config()
