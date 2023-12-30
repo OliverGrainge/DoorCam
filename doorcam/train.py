@@ -25,8 +25,10 @@ from sklearn.metrics import pairwise_distances_argmin_min
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from utils import get_config, test_transform
+from utils import get_logger
 
 config = get_config()
+logger = get_logger()
 
 
 from torchvision import models
@@ -57,6 +59,7 @@ class TripletModel(pl.LightningModule):
         )
         self.miner = miners.TripletMarginMiner(margin=0.1, type_of_triplets="semihard")
         self.feature_dim = self.feature_size()
+        logger.info("Feature Dim Is: " + str(self.feature_dim))
 
     def feature_size(self):
         image = torch.randn(1, 3, 224, 224)
@@ -151,12 +154,12 @@ class DataModule(pl.LightningDataModule):
         )
         self.val_dataset = data.VGGFaceDataset(config, partition="test", num_ids=25)
 
-        print(
+        logger.info(
             "==================== train dataset has: ",
             self.train_dataset.__len__(),
             " samples",
         )
-        print(
+        logger.info(
             "==================== test dataset has: ",
             self.val_dataset.__len__(),
             " samples",

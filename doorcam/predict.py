@@ -8,6 +8,9 @@ import pandas as pd
 from PIL import Image
 from sklearn.neighbors import NearestNeighbors
 from train import TripletModel
+from utils import get_logger
+
+logger = get_logger()
 
 
 def extract_name_from_path(path: str) -> str:
@@ -46,10 +49,12 @@ class Identifier:
         self.config = config
         if config["inference"]["model_name"] == "":
             self.model = TripletModel()
+            logger.error("Not Loading A Pretrained FaceID Model")
         else:
             self.model = TripletModel.load_from_checkpoint(
                 "model_checkpoints/" + config["inference"]["model_name"]
             )
+            logger.info("Loading FaceID Model Checkpoint")
         self.embeddings, self.names = self.load_id_database()
 
     def inference(self, x: Image) -> Union[dict, None]:
@@ -69,6 +74,7 @@ class Identifier:
         nn.fit(self.embeddings)
         distances, indices = nn.kneighbors([features])
         if distances[0][0] <= self.config["inference"]["similarity_threshold"]:
+            logger.info("Person has been identified")
             name = self.names[indices[0][0]]
             timestamp = datetime.datetime.utcnow()
             entry = {"Name": [name], "Timestamp": [timestamp]}
@@ -76,6 +82,7 @@ class Identifier:
         else:
             timestamp = datetime.datetime.utcnow()
             entry = {"Name": ["unknown"], "Timestamp": [timestamp]}
+            logger.info("Un-identified person")
             return entry
 
     def load_id_database(self) -> Tuple[np.ndarray, np.ndarray]:
@@ -87,6 +94,7 @@ class Identifier:
         """
 
         images = glob("static/people/*")
+        logger.info(f"Loaded {len(images)} identifications")
         names = [extract_name_from_path(pth) for pth in images]
         images = [Image.open(img) for img in images]
         embeddings = np.vstack([self.model.predict(img) for img in images])
