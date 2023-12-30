@@ -25,7 +25,7 @@ class MAC(nn.Module):
         super().__init__()
 
     def forward(self, x):
-        return F.adaptive_max_pool2d(x, (1, 1))
+        return F.adaptive_max_pool2d(x, (1, 1)).flatten(start_dim=-3)
 
 
 class SPoC(nn.Module):
@@ -33,7 +33,7 @@ class SPoC(nn.Module):
         super().__init__()
 
     def forward(self, x):
-        return F.adaptive_avg_pool2d(x, (1, 1))
+        return F.adaptive_avg_pool2d(x, (1, 1)).flatten(start_dim=-3)
 
 
 class GeM(nn.Module):
@@ -45,4 +45,4 @@ class GeM(nn.Module):
     def forward(self, x):
         return F.avg_pool2d(
             x.clamp(min=self.eps).pow(self.p), (x.size(-2), x.size(-1))
-        ).pow(1.0 / self.p)
+        ).pow(1.0 / self.p).flatten(start_dim=-3)

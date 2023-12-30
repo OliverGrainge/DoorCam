@@ -1,10 +1,10 @@
-import aggregation as agg
+import doorcam.aggregation as agg
 import torch
 import torch.nn as nn
 import torchvision.models as models
 import yaml
 from torchvision.models import ResNet18_Weights, ResNet50_Weights
-from utils import get_config, get_logger
+from doorcam.utils import get_config, get_logger
 
 config = get_config()
 logger = get_logger()
@@ -61,7 +61,7 @@ def get_backbone(config: dict) -> nn.Module:
     return backbone
 
 
-def get_aggregation(args: dict) -> nn.Module:
+def get_aggregation(config: dict) -> nn.Module:
     """
     Returns a model to convert the convolutional feature maps of the feature extractor
     into a single vector representation
