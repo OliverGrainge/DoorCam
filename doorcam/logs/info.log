@@ -1,0 +1,558 @@
+
+INFO 2023-12-30 09:42:20,775 [root:<stdin>:<module>:1]
+This is some information about your code
+
+WARNING 2023-12-30 09:42:34,109 [root:<stdin>:<module>:1]
+You should be aware of this
+
+CRITICAL 2023-12-30 09:42:53,926 [root:<stdin>:<module>:1]
+There is something really wrong with this process
+
+ERROR 2023-12-30 09:43:07,150 [root:<stdin>:<module>:1]
+There is an error
+
+INFO 2023-12-30 21:01:48,085 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:03:01,961 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:05:55,526 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:10:25,791 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:10:26,237 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:12:23,392 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:12:23,834 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:12:24,080 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:08,441 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:08,875 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:18:09,101 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:09,602 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:18:09,659 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:18:09,663 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:18:22,731 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:23,164 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:18:23,385 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:23,891 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:18:23,950 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:18:23,954 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:18:52,767 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:53,199 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:18:53,424 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:18:53,925 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:18:53,928 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:18:53,931 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:27,324 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:27,761 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:22:27,992 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:28,510 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:22:28,513 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:22:28,516 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:28,520 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:28,952 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:29,022 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:29,466 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:29,538 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:29,968 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:30,037 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:30,469 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:30,538 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:30,974 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:22:31,046 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:22:31,470 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:39,089 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:39,520 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:25:39,746 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:40,245 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:25:40,248 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:25:40,251 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:40,255 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:40,676 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:40,801 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:41,218 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:41,335 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:41,759 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:41,891 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:42,308 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:42,437 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:42,853 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:42,969 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:43,390 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:58,586 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:59,022 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:25:59,247 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:25:59,742 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:25:59,746 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:25:59,749 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:25:59,752 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:00,166 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:00,229 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:00,647 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:00,717 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:01,132 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:01,194 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:01,612 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:01,685 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:02,103 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:02,169 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:02,584 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:02,650 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:03,067 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:03,194 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:03,615 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:03,738 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:04,149 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:04,271 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:04,691 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:04,822 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:05,248 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:26:05,386 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:26:05,806 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:03,930 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:04,361 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:27:04,580 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:05,078 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:27:05,082 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:27:05,086 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:05,089 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:05,509 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:05,579 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:05,995 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:06,063 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:06,480 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:06,547 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:06,959 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:07,022 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:07,447 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:07,515 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:07,936 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:08,005 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:08,427 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:08,597 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:09,010 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:09,127 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:09,553 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:09,684 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:10,104 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:10,217 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:10,655 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:27:10,792 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:27:11,220 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:16,973 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:17,409 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:29:17,635 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:18,139 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:29:18,142 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:29:18,145 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:18,151 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:18,570 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:18,637 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:19,050 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:19,118 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:19,539 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:19,606 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:20,026 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:20,092 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:20,508 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:20,576 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:20,999 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:21,068 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:21,489 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:21,664 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:22,076 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:22,181 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:22,610 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:22,729 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:23,155 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:23,278 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:23,689 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:29:23,790 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:29:24,230 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:01,704 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:02,137 [root:models.py:get_backbone:26]
+Loading ResNet18 Backbone
+
+INFO 2023-12-30 21:30:02,364 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:02,860 [root:models.py:get_aggregation:77]
+Loading MAC Aggregation
+
+INFO 2023-12-30 21:30:02,863 [root:models.py:get_aggregation:82]
+Loading SPOC Aggregation
+
+INFO 2023-12-30 21:30:02,866 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:02,869 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:03,287 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:03,353 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:03,772 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:03,838 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:04,262 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:04,334 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:04,755 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:04,825 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:05,244 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:05,310 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:05,729 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:05,802 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:06,220 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:06,352 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:06,775 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:06,906 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:07,326 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:07,455 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:07,875 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:08,014 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:08,435 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
+
+INFO 2023-12-30 21:30:08,572 [root:models.py:get_backbone:44]
+Loading ResNet50 Backbone
+
+INFO 2023-12-30 21:30:08,991 [root:models.py:get_aggregation:87]
+Loading GEM Aggregation
