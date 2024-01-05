@@ -4,3 +4,15 @@ There is something really wrong with this process
 
 ERROR 2023-12-30 09:43:07,150 [root:<stdin>:<module>:1]
 There is an error
+
+ERROR 2024-01-04 08:26:12,737 [root:predict.py:__init__:52]
+Not Loading A Pretrained FaceID Model
+
+ERROR 2024-01-04 08:26:15,264 [root:predict.py:__init__:52]
+Not Loading A Pretrained FaceID Model
+
+ERROR 2024-01-04 08:27:32,946 [root:predict.py:__init__:52]
+Not Loading A Pretrained FaceID Model
+
+ERROR 2024-01-04 08:27:35,514 [root:predict.py:__init__:52]
+Not Loading A Pretrained FaceID Model

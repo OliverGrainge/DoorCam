@@ -48,12 +48,12 @@ class Identifier:
         super().__init__()
         self.config = config
         if config["inference"]["model_name"] == "":
-            self.model = TripletModel()
+            self.model = TripletModel().to("cpu")
             logger.error("Not Loading A Pretrained FaceID Model")
         else:
             self.model = TripletModel.load_from_checkpoint(
-                "model_checkpoints/" + config["inference"]["model_name"]
-            )
+                "doorcam/model_checkpoints/" + config["inference"]["model_name"]
+            ).to("cpu")
             logger.info("Loading FaceID Model Checkpoint")
         self.embeddings, self.names = self.load_id_database()
 
@@ -92,8 +92,8 @@ class Identifier:
         Returns:
             Tuple[np.ndarray, np.ndarray]: A tuple containing arrays of embeddings and names.
         """
-
-        images = glob("static/people/*")
+        import sys
+        images = glob("doorcam/static/people/*")
         logger.info(f"Loaded {len(images)} identifications")
         names = [extract_name_from_path(pth) for pth in images]
         images = [Image.open(img) for img in images]
@@ -108,7 +108,7 @@ class Identifier:
             pd.DataFrame: The loaded or newly created entry record DataFrame.
         """
         try:
-            record = pd.read_csv("entry_record.csv")
+            record = pd.read_csv("doorcam/entry_record.csv")
             record["Timestamp"] = pd.to_datetime(record["Timestamp"])
             record = record.head(20)
         except:
@@ -129,7 +129,7 @@ class Identifier:
         record["Timestamp"] = pd.to_datetime(record["Timestamp"])
         one_week_ago = datetime.datetime.utcnow() - timedelta(weeks=1)
         record = record[record["Timestamp"] > one_week_ago]
-        record.to_csv("entry_record.csv", index=False)
+        record.to_csv("doorcam/entry_record.csv", index=False)
 
     def add_entryrecord(self, entry: dict) -> None:
         """
@@ -156,4 +156,4 @@ class Identifier:
         Returns:
             None: This function does not return anything. It saves the image to disk.
         """
-        x.save("statice/people/" + name + ".jpg")
+        x.save("doorcam/static/people/" + name + ".jpg")

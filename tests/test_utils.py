@@ -7,8 +7,9 @@ import numpy as np
 from PIL import Image
 import torchvision
 
-root = "/".join(sys.path[0].split('/')[:-2])
+root = "/".join(sys.path[0].split('/')[:-1])
 sys.path.insert(0, root)
+os.chdir(root)
 
 from doorcam import utils 
 

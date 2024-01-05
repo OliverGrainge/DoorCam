@@ -4,8 +4,9 @@ import os
 import torch
 from glob import glob
 
-root = "/".join(sys.path[0].split('/')[:-2])
+root = "/".join(sys.path[0].split('/')[:-1])
 sys.path.insert(0, root)
+
 
 import doorcam.aggregation as agg
 

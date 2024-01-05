@@ -1,10 +1,12 @@
-import doorcam.aggregation as agg
+from glob import glob
+import sys
+import aggregation as agg
 import torch
 import torch.nn as nn
 import torchvision.models as models
 import yaml
 from torchvision.models import ResNet18_Weights, ResNet50_Weights
-from doorcam.utils import get_config, get_logger
+from utils import get_config, get_logger
 
 config = get_config()
 logger = get_logger()

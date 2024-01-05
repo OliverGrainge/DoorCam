@@ -1,0 +1,27 @@
+# TO BUILD: # TO BUILD: sudo docker build --network=host -t doorcam-client -f deploy/Dockerfile.client .
+# TO RUN: sudo docker run --dns 8.8.8.8 -t doorcam-server
+
+# Use Ubuntu as the base image
+FROM python:3.10
+
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements.txt file and Python scripts into the container
+COPY ./doorcam/ /app/doorcam
+COPY ./requirements.txt /app
+COPY ./tests/ /app/tests
+
+RUN apt-get update
+RUN apt-get install -y libgl1-mesa-glx 
+
+# Install dependencies
+RUN pip install -r /app/requirements.txt
+
+EXPOSE 5000
+
+RUN pytest /app/tests
+
+# Command to run the script
+CMD ["python", "./doorcam/app.py"]

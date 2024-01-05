@@ -6,15 +6,13 @@ import os
 import logging.config
 from rich.logging import RichHandler
 
-
-
 def get_config() -> dict:
-    with open("config.yaml", "r") as file:
+    with open("doorcam/config.yaml", "r") as file:
         return yaml.safe_load(file)
 
 def get_logger():
     import logger
-    LOGS_DIR = Path(os.path.dirname(os.path.abspath(__file__)), "logs")
+    LOGS_DIR = Path(os.path.dirname(os.path.abspath(__file__)) + "/logs")
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     logging.config.fileConfig(Path(LOGS_DIR, "logging.config"))
     logger = logging.getLogger()

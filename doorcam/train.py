@@ -4,7 +4,6 @@ from typing import Tuple
 
 import data
 import faiss
-import mlflow
 import models
 import numpy as np
 import pytorch_lightning as pl
@@ -13,6 +12,7 @@ import torch.nn as nn
 import torch.optim as optim
 import yaml
 from PIL import Image
+from torchvision import models
 from pytorch_lightning import Trainer
 from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import ModelCheckpoint
@@ -20,40 +20,48 @@ from pytorch_metric_learning import losses, miners, reducers
 from pytorch_metric_learning.samplers import MPerClassSampler
 from pytorch_metric_learning.utils.accuracy_calculator import \
     AccuracyCalculator
-from ray.air.integrations.mlflow import MLflowLoggerCallback
 from sklearn.metrics import pairwise_distances_argmin_min
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from utils import get_config, test_transform
 from utils import get_logger
+from models import FaceIDModel
 
 config = get_config()
 logger = get_logger()
 
 
-from torchvision import models
 
-
-class ResNet50Embedding(nn.Module):
-    def __init__(self):
-        super(ResNet50Embedding, self).__init__()
-        resnet = models.resnet50(pretrained=True)
-        self.features = nn.Sequential(*list(resnet.children())[:-1])
-        self.embedding = nn.Linear(
-            resnet.fc.in_features, 1024
-        )  # Example embedding size
-
-    def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        x = self.embedding(x)
-        return nn.functional.normalize(x, p=2, dim=1)
 
 
 class TripletModel(pl.LightningModule):
+    """
+    A PyTorch Lightning Module for training and evaluating a face identification model using triplet loss.
+
+    This model utilizes a FaceIDModel for feature extraction and employs a TripletMarginLoss for
+    training. The model is also equipped with a TripletMarginMiner for selecting informative triplets 
+    during training. It includes methods for forward passes, predictions, training steps, and validation
+    steps, alongside a mechanism for computing Recall@k as a validation metric.
+
+    Attributes:
+        model (FaceIDModel): The underlying model used for feature extraction.
+        loss_fn (losses.TripletMarginLoss): The triplet loss function for training.
+        miner (miners.TripletMarginMiner): A miner for selecting triplets during training.
+        feature_dim (int): The dimensionality of the output feature vector of the FaceIDModel.
+
+    Methods:
+        forward(x): Performs a forward pass through the model.
+        predict(x): Generates embeddings for an input image.
+        training_step(batch, batch_idx): Performs a single training step.
+        on_validation_epoch_start(): Prepares for a validation epoch.
+        validation_step(batch, batch_idx): Performs a validation step.
+        on_validation_epoch_end(): Finalizes the validation epoch and computes Recall@k.
+        configure_optimizers(): Configures the optimizer for training.
+        feature_size(): Computes the feature dimensionality of the FaceIDModel.
+    """
     def __init__(self):
         super().__init__()
-        self.model = ResNet50Embedding()
+        self.model = FaceIDModel(config)
         self.loss_fn = losses.TripletMarginLoss(
             margin=0.1, swap=False, smooth_loss=False, triplets_per_anchor="all"
         )
@@ -144,6 +152,29 @@ class TripletModel(pl.LightningModule):
 
 
 class DataModule(pl.LightningDataModule):
+    """
+    A PyTorch Lightning Data Module for managing the VGGFace dataset for training and validation.
+
+    This class provides a convenient way to setup dataloaders for the training and validation datasets.
+    It uses the VGGFaceDataset class for both training and validation datasets. It optionally allows 
+    the use of a sampler for the training dataset to manage sample selection per class.
+
+    Attributes:
+        sampler (bool): Indicates whether to use a sampler for the training dataloader.
+        train_dataset (VGGFaceDataset): The dataset used for training.
+        val_dataset (VGGFaceDataset): The dataset used for validation.
+        train_sampler (MPerClassSampler, optional): A sampler that defines the strategy to draw samples 
+            from the dataset. Used only if 'sampler' is set to True.
+
+    Methods:
+        setup(stage=None): Prepares the data for the train and validation stages.
+        train_dataloader(): Returns a DataLoader for the training dataset.
+        val_dataloader(): Returns a DataLoader for the validation dataset.
+
+    Args:
+        sampler (bool, optional): If True, an MPerClassSampler is used for the training dataloader.
+            Defaults to True.
+    """
     def __init__(self, sampler=True):
         super().__init__()
         self.sampler = sampler

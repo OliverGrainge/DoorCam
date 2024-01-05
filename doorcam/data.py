@@ -17,6 +17,29 @@ logger = get_logger()
 
 
 def reduce_dataset(image_paths, labels, samples_per_category):
+    """
+    Reduces a dataset to a specified number of samples per category.
+
+    This function is designed to create a subset of a given dataset by ensuring that each
+    unique category (label) in the dataset is represented by a specified maximum number 
+    of samples. It is particularly useful for creating balanced datasets or for reducing 
+    the size of a dataset for faster experimentation.
+
+    Args:
+        image_paths (np.ndarray): An array of paths to images in the dataset.
+        labels (np.ndarray): An array of labels corresponding to each image in image_paths.
+        samples_per_category (int): The maximum number of samples to retain for each unique label.
+
+    Returns:
+        tuple: A tuple containing two flattened numpy arrays:
+            - The first array is the reduced list of image paths.
+            - The second array is the reduced list of labels corresponding to these image paths.
+
+    Note:
+        If a category has fewer samples than `samples_per_category`, all samples from that
+        category are retained. The selection of samples for categories with more than the 
+        desired number is done randomly.
+    """
     unique_labels = np.unique(labels)
     reduced_image_paths = []
     reduced_labels = []
@@ -100,6 +123,35 @@ def get_image_paths(
 
 
 class VGGFaceDataset(Dataset):
+    """
+    A dataset class for handling and processing VGGFace data.
+
+    This class is designed to load and preprocess images from the VGGFace dataset,
+    allowing for easy integration with machine learning models for tasks like
+    face recognition or classification. The class supports partitioning the dataset
+    (such as training, validation, and testing), optional data reduction for quicker
+    debugging, and transformations on the dataset images.
+
+    Attributes:
+        transform (callable, optional): A function/transform that takes in a PIL image
+            and returns a transformed version. E.g, transforms found in torchvision.transforms.
+        image_ids (np.ndarray): Array of image IDs corresponding to each image in the dataset.
+        image_paths (np.ndarray): Array of file paths to each image in the dataset.
+
+    Args:
+        config (dict): Configuration dictionary containing dataset parameters.
+        partition (str): The specific part of the dataset to use (e.g., 'train', 'val', 'test').
+        num_ids (int, optional): Number of unique identities to include in the dataset. Defaults to 500.
+        debug (bool, optional): If set to True, the dataset will be reduced to a smaller size for
+            debugging purposes. Defaults to False.
+
+    Raises:
+        AssertionError: If the lengths of image_ids and image_paths don't match after processing.
+
+    Methods:
+        __len__(): Returns the total number of images in the dataset.
+        __getitem__(idx): Retrieves the image and its ID at the specified index.
+    """
     def __init__(
         self, config: dict, partition: str, num_ids: int = 500, debug: bool = False
     ) -> None:

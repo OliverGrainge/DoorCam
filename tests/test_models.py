@@ -8,13 +8,14 @@ import torchvision
 from torch import nn
 import pytest
 
-root = "/".join(sys.path[0].split('/')[:-2])
+root = "/".join(sys.path[0].split('/')[:-1])
 sys.path.insert(0, root)
+os.chdir(root)
 
-from doorcam import models
-from doorcam import utils
+print(glob("*"))
 
-sys.path.remove(root)
+import doorcam.models as models
+import doorcam.utils as utils
 
 def test_backbone(config):
     config["training"]["device"] = "cpu"

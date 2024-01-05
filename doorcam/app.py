@@ -14,7 +14,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
 config = get_config()
 app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = "static/people/"
+app.config["UPLOAD_FOLDER"] = "doorcam/static/"
 
 predictor = Identifier(config)
 
@@ -23,7 +23,7 @@ predictor = Identifier(config)
 def home():
     directory = "people"
     entry_record = predictor.load_record()
-    image_files = os.listdir(os.path.join("static", directory))
+    image_files = os.listdir(os.path.join("doorcam/static", directory))
     images = [
         os.path.join(directory, file)
         for file in image_files
@@ -85,16 +85,19 @@ def upload_file():
         file = request.files["file"]
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], "people", filename))
             return "File uploaded successfully"
     return render_template("upload.html")
 
 
-@app.route("/delete/<filename>", methods=["GET", "POST"])
+@app.route("/delete/<path:filename>", methods=["GET", "POST"])
 def delete_file(filename):
+    print(filename)
     if ".." in filename or filename.startswith("/"):
         return "Invalid filename", 400
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+
+    print(file_path)
 
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -104,4 +107,5 @@ def delete_file(filename):
 
 
 if __name__ == "__main__":
+    #app.run(host='0.0.0.0', debug=True)
     app.run(debug=True)

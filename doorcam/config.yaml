@@ -1,4 +1,5 @@
 
+# Application Configuration 
 
 training:
   loss_fn: "triplet"
@@ -10,7 +11,7 @@ training:
   train_batch_size: 300
   infer_batch_size: 200
   num_workers: 12
-  device: "cuda"
+  device: "cpu"
   vggface_dir: "/home/oliver/Downloads/VGG-Face2"
   triplet_sample_size: 3000
   early_stopping_patience: 3
@@ -21,6 +22,6 @@ training:
 
 
 inference: 
-  model_name: ""
+  model_name: "best_model-v1.ckpt"
   similarity_threshold: 0.1
   server_address: "http://127.0.0.1:5000"
