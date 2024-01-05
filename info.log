@@ -2320,3 +2320,27 @@ INFO 2024-01-05 12:47:35,224 [werkzeug:_internal.py:_log:96]
 
 INFO 2024-01-05 12:47:35,246 [werkzeug:_internal.py:_log:96]
 127.0.0.1 - - [05/Jan/2024 12:47:35] "[36mGET /static/people/Screenshot_from_2023-11-01_13-20-34.png HTTP/1.1[0m" 304 -
+
+INFO 2024-01-05 17:15:28,051 [root:models.py:get_backbone:46]
+Loading ResNet50 Backbone
+
+INFO 2024-01-05 17:15:28,378 [root:models.py:get_backbone:28]
+Loading ResNet18 Backbone
+
+INFO 2024-01-05 17:15:28,537 [root:models.py:get_backbone:46]
+Loading ResNet50 Backbone
+
+INFO 2024-01-05 17:15:28,850 [root:models.py:get_aggregation:79]
+Loading MAC Aggregation
+
+INFO 2024-01-05 17:15:28,853 [root:models.py:get_aggregation:84]
+Loading SPOC Aggregation
+
+INFO 2024-01-05 17:15:28,856 [root:models.py:get_aggregation:89]
+Loading GEM Aggregation
+
+INFO 2024-01-05 17:15:28,859 [root:models.py:get_backbone:46]
+Loading ResNet50 Backbone
+
+INFO 2024-01-05 17:15:29,121 [root:models.py:get_aggregation:89]
+Loading GEM Aggregation
