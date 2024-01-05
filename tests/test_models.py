@@ -12,7 +12,6 @@ root = "/".join(sys.path[0].split('/')[:-1])
 sys.path.insert(0, root)
 os.chdir(root)
 
-print(glob("*"))
 
 import doorcam.models as models
 import doorcam.utils as utils
