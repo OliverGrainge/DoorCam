@@ -93,10 +93,13 @@ class Identifier:
             Tuple[np.ndarray, np.ndarray]: A tuple containing arrays of embeddings and names.
         """
         import sys
+        print("++++++++++++++++++++++++++++++++++++++++++++++++++", glob("*"))
         images = glob("doorcam/static/people/*")
+        print(images)
         logger.info(f"Loaded {len(images)} identifications")
         names = [extract_name_from_path(pth) for pth in images]
         images = [Image.open(img) for img in images]
+        print(images)
         embeddings = np.vstack([self.model.predict(img) for img in images])
         return embeddings, names
 

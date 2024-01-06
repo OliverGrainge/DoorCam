@@ -80,7 +80,10 @@ class TripletModel(pl.LightningModule):
         return x
 
     def predict(self, x: Image) -> np.ndarray:
+        print(x)
+        print(type(x))
         x = test_transform(x)
+        print(type(x))
         features = self.model(x[None, :])
         return features.detach().cpu().numpy().flatten()
 
